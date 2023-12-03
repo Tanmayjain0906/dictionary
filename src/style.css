@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'montessrate', sans-serif;
+    background-color: rgb(231, 229, 229);
+}
+
+.navbar {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar div a {
+    color: white;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.home form
+{
+    margin-top: 25px;
+}
+
+#search-input {
+    background-color: white;
+    color: black;
+    border: none;
+    outline: blue;
+    padding: 10px 20px;
+    font-size: 17px;
+}
+
+#search-btn {
+    background-color: black;
+    color: white;
+    padding: 10px 8px;
+    border: none;
+}
+
+.data
+{
+    align-self: flex-start;
+    margin-top: 25px;
+    margin-left: 20px;
+}
+
+.list
+{
+    margin-bottom: 15px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.295);
+}
+
+.history-tag
+{
+    color: blue;
+    text-decoration: underline;
+}
