@@ -2,24 +2,25 @@ import React, { useEffect, useState } from "react";
 import { fetchData } from "../redux/actions/apiActions";
 import { useSelector, useDispatch } from "react-redux";
 import { add_history } from "../redux/actions/historyActions";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const Home = () => {
 
-    const { data, err } = useSelector(state => state.apiReducer);
+    const { data, loading } = useSelector(state => state.apiReducer);
     const dispatch = useDispatch();
 
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-    
-        if(sessionStorage.getItem("word") !== null)
-        {
+
+        if (sessionStorage.getItem("word") !== null) {
             dispatch(fetchData(sessionStorage.getItem("word")));
         }
-        else{
+        else {
             dispatch(fetchData(""));
         }
-      
+
     }, [])
 
     function handleForm(e) {
@@ -35,6 +36,8 @@ const Home = () => {
         }
     }
 
+    
+
     return (
         <div className="home">
 
@@ -42,6 +45,13 @@ const Home = () => {
                 <input type="text" id="search-input" value={search} onChange={(e) => setSearch(e.target.value)} />
                 <button type="submit" id="search-btn">Search</button>
             </form>
+            {
+                loading && <div>
+                    <Box sx={{ display: 'flex' }}>
+                        <CircularProgress />
+                    </Box>
+                </div>
+            }
 
             <div className="data">
                 {
@@ -93,12 +103,12 @@ const Home = () => {
                         }
                     </div> : <div>
                         {
-                            sessionStorage.getItem("start") !== null && <h1>Result Not Found</h1>
+                            (sessionStorage.getItem("start") !== null && loading == false) && <h1>Result Not Found</h1>
                         }
                     </div>
-                } 
+                }
 
-                
+
             </div>
         </div>
     )
