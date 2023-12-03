@@ -5,7 +5,7 @@ import { add_history } from "../redux/actions/historyActions";
 
 const Home = () => {
 
-    const { data } = useSelector(state => state.apiReducer);
+    const { data, err } = useSelector(state => state.apiReducer);
     const dispatch = useDispatch();
 
     const [search, setSearch] = useState("");
@@ -31,6 +31,7 @@ const Home = () => {
             console.log(data);
             dispatch(add_history(search.trim()));
             setSearch("");
+            sessionStorage.setItem("start", "true");
         }
     }
 
@@ -90,8 +91,14 @@ const Home = () => {
                                 </div>
                             ))
                         }
-                    </div> : <h1>Result Not Found</h1>
-                }
+                    </div> : <div>
+                        {
+                            sessionStorage.getItem("start") !== null && <h1>Result Not Found</h1>
+                        }
+                    </div>
+                } 
+
+                
             </div>
         </div>
     )

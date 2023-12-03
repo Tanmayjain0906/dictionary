@@ -3,7 +3,7 @@ import { FETCHING, FETCHING_SUCCESS, FETCHING_ERROR } from "../actions/actionTyp
 const initialState = {
     loading : false,
     data: [],
-    err: null
+    err: null,
 }
 
 const apiReducer = (state = initialState, action) => {
