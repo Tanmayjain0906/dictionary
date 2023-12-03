@@ -7,20 +7,17 @@ import Box from '@mui/material/Box';
 
 const Home = () => {
 
-    const { data, loading } = useSelector(state => state.apiReducer);
+    const { data, loading, err } = useSelector(state => state.apiReducer);
     const dispatch = useDispatch();
 
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-
         if (sessionStorage.getItem("word") !== null) {
             dispatch(fetchData(sessionStorage.getItem("word")));
+            dispatch(add_history(sessionStorage.getItem("word")));
         }
-        else {
-            dispatch(fetchData(""));
-        }
-
+        
     }, [])
 
     function handleForm(e) {
@@ -29,10 +26,8 @@ const Home = () => {
         if (search) {
             dispatch(fetchData(search.trim()));
             sessionStorage.setItem("word", search.trim());
-            console.log(data);
             dispatch(add_history(search.trim()));
             setSearch("");
-            sessionStorage.setItem("start", "true");
         }
     }
 
@@ -57,16 +52,16 @@ const Home = () => {
                 {
                     data.length > 0 ? <div >
                         {
-                            data.map((list) => (
-                                <div className="list">
+                            data.map((list, index) => (
+                                <div className="list" key={index}>
                                     <h2>{list.word}</h2>
 
                                     {
                                         list.phonetics.length > 0 && <div>
                                             {
-                                                list.phonetics.map((audioFile) => (
+                                                list.phonetics.map((audioFile, index) => (
 
-                                                    <div>
+                                                    <div key={index}>
                                                         <p>{audioFile.text}</p>
                                                         <audio controls>
                                                             <source src={audioFile.audio} type="audio/mp3" />
@@ -81,14 +76,14 @@ const Home = () => {
                                     {
                                         list.meanings.length > 0 && <div>
                                             {
-                                                list.meanings.map((mean) => (
-                                                    <div>
+                                                list.meanings.map((mean, index) => (
+                                                    <div key={index}>
                                                         <b><p>{mean.partOfSpeech}</p></b>
                                                         {
                                                             mean.definitions.length > 0 && <div>
                                                                 {
-                                                                    mean.definitions.map((def) => (
-                                                                        <p>{def.definition}</p>
+                                                                    mean.definitions.map((def , index) => (
+                                                                        <p key={index}>{def.definition}</p>
                                                                     ))
                                                                 }
                                                             </div>
@@ -103,7 +98,7 @@ const Home = () => {
                         }
                     </div> : <div>
                         {
-                            (sessionStorage.getItem("start") !== null && loading == false) && <h1>Result Not Found</h1>
+                            err !== null && <h1>{err.message}</h1>
                         }
                     </div>
                 }
